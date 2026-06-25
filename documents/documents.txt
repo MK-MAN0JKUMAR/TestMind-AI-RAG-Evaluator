@@ -1,0 +1,11 @@
+Python was created by Guido van Rossum.
+
+Java is object oriented.
+
+India's capital is New Delhi.
+
+Selenium is an open source automation testing framework.
+
+TestNG is used for test execution and reporting.
+
+Playwright supports cross browser automation.

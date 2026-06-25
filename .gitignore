@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+.venv/
+venv/
+evaluation/deepeval/.deepeval-venv/
+evaluation/ragas/.rag-venv/
+
+# DeepEval
+.deepeval/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Generated Reports
+reports/*.html
+reports/*.csv
+
+# Evaluation Results
+results/*.json
+
+# FAISS
+faiss_index/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+Thumbs.db
+.DS_Store

@@ -1,0 +1,7 @@
+deepeval==4.0.6
+
+langchain-ollama
+
+ollama
+
+pydantic
