@@ -105,3 +105,97 @@
 2026-06-26 20:28:57,710 | INFO     | RAGAS completed.
 2026-06-26 20:28:57,710 | INFO     | Generating reports...
 2026-06-26 20:28:57,714 | INFO     | Evaluation completed successfully.
+2026-06-26 22:30:30,986 | INFO     | No new files found.
+2026-06-26 22:31:18,309 | INFO     | Evaluation started.
+2026-06-26 22:31:18,310 | INFO     | Question received: Which framework supports browser automation?
+2026-06-26 22:31:45,404 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-26 22:31:45,412 | INFO     | Running DeepEval...
+2026-06-26 22:33:41,970 | INFO     | DeepEval completed.
+2026-06-26 22:33:41,971 | INFO     | Running RAGAS...
+2026-06-26 22:35:23,206 | INFO     | RAGAS completed.
+2026-06-26 22:35:23,208 | INFO     | Generating reports...
+2026-06-26 22:35:23,214 | INFO     | Evaluation completed successfully.
+2026-06-26 22:49:52,146 | INFO     | No new files found.
+2026-06-26 22:52:57,447 | INFO     | Evaluation started.
+2026-06-26 22:52:57,448 | INFO     | Question received: what is playwright 
+2026-06-26 22:53:16,775 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 22:53:16,783 | INFO     | Running DeepEval...
+2026-06-26 22:55:01,720 | INFO     | DeepEval completed.
+2026-06-26 22:55:01,721 | INFO     | Running RAGAS...
+2026-06-26 22:56:42,080 | INFO     | RAGAS completed.
+2026-06-26 22:56:42,081 | INFO     | Generating reports...
+2026-06-26 22:56:42,089 | INFO     | Evaluation completed successfully.
+2026-06-26 23:25:46,615 | INFO     | No new files found.
+2026-06-26 23:25:56,463 | INFO     | System initialized.
+2026-06-26 23:26:56,700 | INFO     | User asked: what is python?
+2026-06-26 23:26:56,701 | INFO     | Evaluation started.
+2026-06-26 23:26:56,702 | INFO     | Question received: what is python?
+2026-06-26 23:27:15,968 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-26 23:27:15,973 | INFO     | Running DeepEval...
+2026-06-26 23:29:26,125 | INFO     | DeepEval completed.
+2026-06-26 23:29:26,125 | INFO     | Running RAGAS...
+2026-06-26 23:31:23,810 | INFO     | RAGAS completed.
+2026-06-26 23:31:23,812 | INFO     | Generating reports...
+2026-06-26 23:31:23,818 | INFO     | Evaluation completed successfully.
+2026-06-26 23:34:44,430 | INFO     | No new files found.
+2026-06-26 23:34:53,987 | INFO     | System initialized.
+2026-06-26 23:50:46,334 | INFO     | No new files found.
+2026-06-26 23:50:59,000 | INFO     | System initialized.
+2026-06-26 23:51:10,441 | INFO     | User asked: what is playwright
+2026-06-26 23:51:10,442 | INFO     | Evaluation started.
+2026-06-26 23:51:10,442 | INFO     | Question received: what is playwright
+2026-06-26 23:51:29,108 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 23:51:29,117 | INFO     | Running DeepEval...
+2026-06-26 23:53:09,190 | INFO     | DeepEval completed.
+2026-06-26 23:53:09,190 | INFO     | Running RAGAS...
+2026-06-26 23:54:42,008 | INFO     | RAGAS completed.
+2026-06-26 23:54:42,009 | INFO     | Generating reports...
+2026-06-26 23:54:42,013 | INFO     | Evaluation completed successfully.
+2026-06-26 23:57:30,567 | INFO     | No new files found.
+2026-06-26 23:57:47,252 | INFO     | Evaluation started.
+2026-06-26 23:57:47,253 | INFO     | Question received: what is python?
+2026-06-26 23:58:01,505 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-26 23:58:01,519 | INFO     | Running DeepEval...
+2026-06-26 23:59:16,283 | INFO     | DeepEval completed.
+2026-06-26 23:59:16,283 | INFO     | Running RAGAS...
+2026-06-27 00:01:09,368 | INFO     | RAGAS completed.
+2026-06-27 00:01:09,370 | INFO     | Generating reports...
+2026-06-27 00:01:09,375 | INFO     | Evaluation completed successfully.
+2026-06-27 00:19:22,602 | INFO     | No new files found.
+2026-06-27 00:19:43,196 | INFO     | Evaluation started.
+2026-06-27 00:19:43,200 | INFO     | Question received: what is python?
+2026-06-27 00:20:06,263 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-27 00:20:06,270 | INFO     | Running DeepEval...
+2026-06-27 00:22:06,398 | INFO     | DeepEval completed.
+2026-06-27 00:22:06,398 | INFO     | Running RAGAS...
+2026-06-27 00:24:09,151 | INFO     | RAGAS completed.
+2026-06-27 00:24:09,153 | INFO     | Generating reports...
+2026-06-27 00:24:09,160 | INFO     | Evaluation completed successfully.
+2026-06-27 00:35:08,239 | INFO     | No new files found.
+2026-06-27 00:35:38,261 | INFO     | Evaluation started.
+2026-06-27 00:35:38,262 | INFO     | Question received: what is python?
+2026-06-27 00:36:01,195 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-27 00:36:01,203 | INFO     | Running DeepEval...
+2026-06-27 00:37:38,977 | INFO     | Evaluation started.
+2026-06-27 00:37:38,977 | INFO     | Question received: what is python?
+2026-06-27 00:37:56,093 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-27 00:37:56,098 | INFO     | Running DeepEval...
+2026-06-27 00:38:11,893 | INFO     | DeepEval completed.
+2026-06-27 00:38:11,894 | INFO     | Running RAGAS...
+2026-06-27 00:40:16,276 | INFO     | RAGAS completed.
+2026-06-27 00:40:16,279 | INFO     | Generating reports...
+2026-06-27 00:40:16,292 | INFO     | Evaluation completed successfully.
+2026-06-27 00:40:16,973 | INFO     | DeepEval completed.
+2026-06-27 00:40:16,974 | INFO     | Running RAGAS...
+2026-06-27 00:41:09,849 | INFO     | RAGAS completed.
+2026-06-27 00:41:09,851 | INFO     | Generating reports...
+2026-06-27 00:41:09,857 | INFO     | Evaluation completed successfully.
+2026-06-27 00:49:36,809 | INFO     | Evaluation started.
+2026-06-27 00:49:36,810 | INFO     | Question received: what is python?
+2026-06-27 00:49:53,074 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-27 00:49:53,078 | INFO     | Running DeepEval...
+2026-06-27 00:51:37,326 | INFO     | DeepEval completed.
+2026-06-27 00:51:37,326 | INFO     | Running RAGAS...
+2026-06-27 00:53:22,013 | INFO     | RAGAS completed.
+2026-06-27 00:53:22,014 | INFO     | Generating reports...
+2026-06-27 00:53:22,017 | INFO     | Evaluation completed successfully.

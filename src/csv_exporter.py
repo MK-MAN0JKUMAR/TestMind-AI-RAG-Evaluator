@@ -49,6 +49,15 @@ def export_to_csv(merged_result):
             ""
         )
     )
+    
+    overall_status = (
+        "PASS"
+        if (
+            answer_relevancy >= 0.7
+            and faithfulness >= 0.7
+        )
+        else "FAIL"
+    )
 
     latency = merged_result.get(
         "latency",
@@ -74,6 +83,7 @@ def export_to_csv(merged_result):
                     "Question",
                     "Answer",
                     "Sources",
+                    "Source Count",
                     "Model",
                     "Retrieved Chunks",
                     "Retrieval (s)",
@@ -84,16 +94,21 @@ def export_to_csv(merged_result):
                     "Total (s)",
                     "Answer Relevancy",
                     "Hallucination",
-                    "Faithfulness"
+                    "Faithfulness",
+                    "Overall Status"
                 ]
             )
 
         writer.writerow(
             [
-                datetime.now(),
+                # datetime.now(),
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 merged_result["question"],
                 merged_result["answer"],
                 ", ".join(
+                    merged_result["sources"]
+                ),
+                len(
                     merged_result["sources"]
                 ),
                 merged_result.get(
@@ -129,6 +144,7 @@ def export_to_csv(merged_result):
                 ),
                 answer_relevancy,
                 hallucination,
-                faithfulness
+                faithfulness,
+                overall_status
             ]
         )
