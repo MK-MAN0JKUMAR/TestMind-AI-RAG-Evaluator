@@ -6,7 +6,7 @@ REPORT_PATH = "reports/report.html"
 
 def get_status_badge(score):
 
-    if score >= 0.7:
+    if score >= 0.5:
         return (
             "PASS",
             "#16a34a"
@@ -145,7 +145,7 @@ body{{
 }}
 
 .question{{
-    background:#eef2ff;
+    background:#f9fafb;
     padding:20px;
     border-radius:10px;
     font-size:18px;
@@ -355,40 +355,6 @@ style="background:{status_color};">
 </p>
 
 </div>
-
-<table>
-
-<tr>
-
-<th>Source</th>
-
-<th>Chunk ID</th>
-
-<th>Score</th>
-
-</tr>
-
-{
-''.join(
-
-f"""
-<tr>
-
-<td>{doc['source']}</td>
-
-<td>{doc['chunk_id']}</td>
-
-<td>{doc['score']}</td>
-
-</tr>
-"""
-
-for doc in merged_result["retrieved_docs"]
-
-)
-}
-
-</table>
 
 <div class="section">
 
