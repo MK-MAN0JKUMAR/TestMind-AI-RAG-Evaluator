@@ -1,0 +1,107 @@
+2026-06-26 20:00:42,705 | INFO     | Loading documents...
+2026-06-26 20:00:42,707 | INFO     | Loaded TXT: documents.txt
+2026-06-26 20:00:43,202 | INFO     | Loaded PDF: health.pdf
+2026-06-26 20:00:43,202 | INFO     | Total documents loaded: 8
+2026-06-26 20:00:43,212 | INFO     | Loaded PDF: playwright.pdf
+2026-06-26 20:00:43,213 | INFO     | Total documents loaded: 10
+2026-06-26 20:00:43,222 | INFO     | Loaded PDF: python.pdf
+2026-06-26 20:00:43,222 | INFO     | Total documents loaded: 12
+2026-06-26 20:00:43,231 | INFO     | Loaded PDF: selenium.pdf
+2026-06-26 20:00:43,232 | INFO     | Total documents loaded: 14
+2026-06-26 20:00:43,236 | INFO     | New documents to index: 0
+2026-06-26 20:00:43,236 | INFO     | No new files found.
+2026-06-26 20:00:52,717 | INFO     | System initialized.
+2026-06-26 20:01:04,189 | INFO     | User asked: what is playwright?
+2026-06-26 20:01:04,189 | INFO     | Evaluation started.
+2026-06-26 20:01:04,190 | INFO     | Question received: what is playwright?
+2026-06-26 20:01:18,810 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:01:18,812 | INFO     | Running DeepEval...
+2026-06-26 20:05:24,537 | INFO     | Loading documents...
+2026-06-26 20:05:24,538 | INFO     | Loaded TXT: documents.txt
+2026-06-26 20:05:25,062 | INFO     | Loaded PDF: health.pdf
+2026-06-26 20:05:25,062 | INFO     | Total documents loaded: 8
+2026-06-26 20:05:25,071 | INFO     | Loaded PDF: playwright.pdf
+2026-06-26 20:05:25,072 | INFO     | Total documents loaded: 10
+2026-06-26 20:05:25,079 | INFO     | Loaded PDF: python.pdf
+2026-06-26 20:05:25,080 | INFO     | Total documents loaded: 12
+2026-06-26 20:05:25,090 | INFO     | Loaded PDF: selenium.pdf
+2026-06-26 20:05:25,090 | INFO     | Total documents loaded: 14
+2026-06-26 20:05:25,095 | INFO     | New documents to index: 0
+2026-06-26 20:05:25,095 | INFO     | No new files found.
+2026-06-26 20:05:34,666 | INFO     | System initialized.
+2026-06-26 20:07:10,162 | INFO     | User asked: what is playwright?
+2026-06-26 20:07:10,162 | INFO     | Evaluation started.
+2026-06-26 20:07:10,163 | INFO     | Question received: what is playwright?
+2026-06-26 20:07:22,104 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:07:22,105 | INFO     | Running DeepEval...
+2026-06-26 20:08:42,991 | INFO     | Loading documents...
+2026-06-26 20:08:42,992 | INFO     | Loaded TXT: documents.txt
+2026-06-26 20:08:43,436 | INFO     | Loaded PDF: health.pdf
+2026-06-26 20:08:43,436 | INFO     | Total documents loaded: 8
+2026-06-26 20:08:43,442 | INFO     | Loaded PDF: playwright.pdf
+2026-06-26 20:08:43,442 | INFO     | Total documents loaded: 10
+2026-06-26 20:08:43,451 | INFO     | Loaded PDF: python.pdf
+2026-06-26 20:08:43,451 | INFO     | Total documents loaded: 12
+2026-06-26 20:08:43,458 | INFO     | Loaded PDF: selenium.pdf
+2026-06-26 20:08:43,458 | INFO     | Total documents loaded: 14
+2026-06-26 20:08:43,461 | INFO     | New documents to index: 0
+2026-06-26 20:08:43,461 | INFO     | No new files found.
+2026-06-26 20:08:53,632 | INFO     | System initialized.
+2026-06-26 20:08:58,189 | INFO     | User asked: what is playwright?
+2026-06-26 20:08:58,190 | INFO     | Evaluation started.
+2026-06-26 20:08:58,190 | INFO     | Question received: what is playwright?
+2026-06-26 20:09:00,862 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:09:00,863 | INFO     | Running DeepEval...
+2026-06-26 20:10:24,327 | INFO     | DeepEval completed.
+2026-06-26 20:10:24,327 | INFO     | Running RAGAS...
+2026-06-26 20:12:37,041 | INFO     | Loading documents...
+2026-06-26 20:12:37,042 | INFO     | Loaded TXT: documents.txt
+2026-06-26 20:12:37,468 | INFO     | Loaded PDF: health.pdf
+2026-06-26 20:12:37,468 | INFO     | Total documents loaded: 8
+2026-06-26 20:12:37,474 | INFO     | Loaded PDF: playwright.pdf
+2026-06-26 20:12:37,475 | INFO     | Total documents loaded: 10
+2026-06-26 20:12:37,480 | INFO     | Loaded PDF: python.pdf
+2026-06-26 20:12:37,485 | INFO     | Total documents loaded: 12
+2026-06-26 20:12:37,492 | INFO     | Loaded PDF: selenium.pdf
+2026-06-26 20:12:37,493 | INFO     | Total documents loaded: 14
+2026-06-26 20:12:37,495 | INFO     | New documents to index: 0
+2026-06-26 20:12:37,496 | INFO     | No new files found.
+2026-06-26 20:12:49,064 | INFO     | System initialized.
+2026-06-26 20:12:51,521 | INFO     | User asked: what is playwright?
+2026-06-26 20:12:51,521 | INFO     | Evaluation started.
+2026-06-26 20:12:51,522 | INFO     | Question received: what is playwright?
+2026-06-26 20:12:54,278 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:12:54,280 | INFO     | Running DeepEval...
+2026-06-26 20:13:38,089 | INFO     | DeepEval completed.
+2026-06-26 20:13:38,090 | INFO     | Running RAGAS...
+2026-06-26 20:15:01,590 | INFO     | RAGAS completed.
+2026-06-26 20:15:01,591 | INFO     | Generating reports...
+2026-06-26 20:15:01,595 | INFO     | Evaluation completed successfully.
+2026-06-26 20:20:22,971 | INFO     | User asked: cls
+2026-06-26 20:20:22,972 | INFO     | Evaluation started.
+2026-06-26 20:20:22,972 | INFO     | Question received: cls
+2026-06-26 20:20:22,988 | INFO     | Running DeepEval...
+2026-06-26 20:21:01,352 | INFO     | No new files found.
+2026-06-26 20:21:21,750 | INFO     | Question received: what is playwright ?
+2026-06-26 20:21:34,512 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:21:48,584 | INFO     | Question received: what is python?
+2026-06-26 20:21:59,030 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-26 20:22:49,588 | INFO     | No new files found.
+2026-06-26 20:23:05,890 | INFO     | Evaluation started.
+2026-06-26 20:23:05,891 | INFO     | Question received: what is python?
+2026-06-26 20:23:10,688 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-26 20:23:10,691 | INFO     | Running DeepEval...
+2026-06-26 20:24:55,635 | INFO     | DeepEval completed.
+2026-06-26 20:24:55,635 | INFO     | Running RAGAS...
+2026-06-26 20:26:58,626 | INFO     | RAGAS completed.
+2026-06-26 20:26:58,627 | INFO     | Generating reports...
+2026-06-26 20:26:58,631 | INFO     | Evaluation completed successfully.
+2026-06-26 20:27:10,444 | INFO     | Evaluation started.
+2026-06-26 20:27:10,444 | INFO     | Question received: what is playwright ?
+2026-06-26 20:27:13,610 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-26 20:27:13,613 | INFO     | Running DeepEval...
+2026-06-26 20:28:02,972 | INFO     | DeepEval completed.
+2026-06-26 20:28:02,973 | INFO     | Running RAGAS...
+2026-06-26 20:28:57,710 | INFO     | RAGAS completed.
+2026-06-26 20:28:57,710 | INFO     | Generating reports...
+2026-06-26 20:28:57,714 | INFO     | Evaluation completed successfully.

@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.logger import logger
 
 from langchain_community.document_loaders import (
     TextLoader,
@@ -24,7 +25,7 @@ def load_documents(folder_path: str):
             documents.extend(
                 loader.load()
             )
-
+            
         elif file_path.suffix == ".pdf":
 
             loader = PyPDFLoader(
@@ -34,5 +35,5 @@ def load_documents(folder_path: str):
             documents.extend(
                 loader.load()
             )
-
+                        
     return documents

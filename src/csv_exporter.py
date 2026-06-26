@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime
 import csv
 
 
@@ -49,6 +50,11 @@ def export_to_csv(merged_result):
         )
     )
 
+    latency = merged_result.get(
+        "latency",
+        {}
+    )
+
     with open(
             CSV_PATH,
             "a",
@@ -64,9 +70,18 @@ def export_to_csv(merged_result):
 
             writer.writerow(
                 [
+                    "Timestamp",
                     "Question",
                     "Answer",
                     "Sources",
+                    "Model",
+                    "Retrieved Chunks",
+                    "Retrieval (s)",
+                    "LLM (s)",
+                    "DeepEval (s)",
+                    "RAGAS (s)",
+                    "Report (s)",
+                    "Total (s)",
                     "Answer Relevancy",
                     "Hallucination",
                     "Faithfulness"
@@ -75,10 +90,42 @@ def export_to_csv(merged_result):
 
         writer.writerow(
             [
+                datetime.now(),
                 merged_result["question"],
                 merged_result["answer"],
                 ", ".join(
                     merged_result["sources"]
+                ),
+                merged_result.get(
+                    "model",
+                    ""
+                ),
+                len(
+                    merged_result["retrieved_docs"]
+                ),
+                latency.get(
+                    "retrieval",
+                    ""
+                ),
+                latency.get(
+                    "llm",
+                    ""
+                ),
+                latency.get(
+                    "deepeval",
+                    ""
+                ),
+                latency.get(
+                    "ragas",
+                    ""
+                ),
+                latency.get(
+                    "report",
+                    ""
+                ),
+                latency.get(
+                    "total",
+                    ""
                 ),
                 answer_relevancy,
                 hallucination,
