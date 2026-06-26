@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+from src.logger import logger
 
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -124,8 +125,10 @@ def update_vector_store(documents):
             new_chunks.append(
                 chunk
             )
-
+            
     if not new_chunks:
+        
+        logger.info("No new files found.")
 
         print(
             "\nNo new files found."
@@ -153,6 +156,7 @@ def update_vector_store(documents):
     vector_store.save_local(
         INDEX_PATH
     )
+    logger.info("FAISS index saved.")
 
     indexed_files.update(
 

@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.logger import logger
 
 from langchain_core.prompts import (
     ChatPromptTemplate
@@ -9,6 +10,7 @@ from langchain_core.output_parsers import (
 )
 
 from src.llm import get_llm
+from src.latency import Timer
 
 
 SIMILARITY_THRESHOLD = 1.2
@@ -18,6 +20,12 @@ def ask_question(
         question: str,
         vector_store
 ):
+    logger.info(
+        f"Question received: {question}"
+    )
+
+    retrieval_timer = Timer()
+    retrieval_timer.start()
 
     retrieved_docs = (
         vector_store
@@ -27,6 +35,8 @@ def ask_question(
         )
     )
 
+    retrieval_latency = retrieval_timer.stop()
+
     if not retrieved_docs:
 
         return {
@@ -34,7 +44,11 @@ def ask_question(
             "answer": "No relevant information found.",
             "contexts": [],
             "sources": [],
-            "retrieved_docs": []
+            "retrieved_docs": [],
+            "latency": {
+                "retrieval": retrieval_latency,
+                "llm": 0.0
+            }
         }
 
     contexts = []
@@ -93,7 +107,11 @@ Chunk ID: {chunk_id}
             "answer": "No relevant information found in the supplied documents.",
             "contexts": [],
             "sources": [],
-            "retrieved_docs": []
+            "retrieved_docs": [],
+            "latency": {
+                "retrieval": retrieval_latency,
+                "llm": 0.0
+            }
         }
 
     context = "\n\n".join(
@@ -130,16 +148,25 @@ Answer:
     llm = get_llm()
 
     chain = (
-            prompt
-            | llm
-            | StrOutputParser()
+        prompt
+        | llm
+        | StrOutputParser()
     )
+
+    llm_timer = Timer()
+    llm_timer.start()
 
     answer = chain.invoke(
         {
             "context": context,
             "question": question
         }
+    )
+    
+    llm_latency = llm_timer.stop()
+
+    logger.info(
+    f"Question answered successfully. Retrieved {len(retrieved_results)} chunks."
     )
 
     return {
@@ -149,5 +176,9 @@ Answer:
         "sources": list(
             sources
         ),
-        "retrieved_docs": retrieved_results
+        "retrieved_docs": retrieved_results,
+        "latency": {
+            "retrieval": retrieval_latency,
+            "llm": llm_latency
+        }
     }

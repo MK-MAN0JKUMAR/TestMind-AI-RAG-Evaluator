@@ -4,12 +4,18 @@ import subprocess
 from src.rag_pipeline import ask_question
 from src.report_generator import generate_html_report
 from src.csv_exporter import export_to_csv
+from src.latency import Timer
+from src.llm import MODEL_NAME
+from src.logger import logger
 
 
 def evaluate_question(
         question: str,
         vector_store
 ):
+    logger.info("Evaluation started.")
+    total_timer = Timer()
+    total_timer.start()
 
     # ----------------------------
     # RAG
@@ -45,11 +51,15 @@ def evaluate_question(
             f,
             indent=4
         )
-
+            
+    deepeval_timer = Timer()
+    deepeval_timer.start()
+    
     # ----------------------------
     # DeepEval
     # ----------------------------
-
+    logger.info("Running DeepEval...")
+    
     subprocess.run(
 
         [
@@ -65,11 +75,19 @@ def evaluate_question(
         check=True
 
     )
+    
+    logger.info("DeepEval completed.")
 
     # ----------------------------
     # RAGAS
     # ----------------------------
 
+    deepeval_latency = deepeval_timer.stop()
+    
+    ragas_timer = Timer()
+    ragas_timer.start()
+
+    logger.info("Running RAGAS...")
     subprocess.run(
 
         [
@@ -85,6 +103,10 @@ def evaluate_question(
         check=True
 
     )
+    
+    logger.info("RAGAS completed.")
+    
+    ragas_latency = ragas_timer.stop()
 
     # ----------------------------
     # Load Results
@@ -124,9 +146,43 @@ def evaluate_question(
 
         "deepeval": deepeval_result,
 
-        "ragas": ragas_result
+        "ragas": ragas_result,
+        
+        "model": MODEL_NAME,
+        
+        "latency": {
+
+            "retrieval": result["latency"]["retrieval"],
+
+            "llm": result["latency"]["llm"],
+
+            "deepeval": deepeval_latency,
+
+            "ragas": ragas_latency
+
+        }
 
     }
+        
+    report_timer = Timer()
+    report_timer.start()
+
+    logger.info("Generating reports...")
+    
+    report_latency = report_timer.stop()
+
+    merged_result["latency"]["report"] = report_latency
+    merged_result["latency"]["total"] = total_timer.stop()
+    
+    generate_html_report(
+        merged_result
+    )
+
+    export_to_csv(
+        merged_result
+    )
+
+
 
     # ----------------------------
     # Save
@@ -143,13 +199,7 @@ def evaluate_question(
             f,
             indent=4
         )
-
-    generate_html_report(
-        merged_result
-    )
-
-    export_to_csv(
-        merged_result
-    )
-
+    
+    logger.info("Evaluation completed successfully.")
+    
     return merged_result
