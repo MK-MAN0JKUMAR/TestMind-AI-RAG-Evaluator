@@ -120,6 +120,23 @@ def create_vector_store(documents):
 
     return vector_store
 
+def create_temp_vector_store(documents):
+    """
+    Create an in-memory FAISS vector store.
+
+    Used for runtime uploaded documents.
+    Nothing is written to disk.
+    """
+
+    chunks = create_chunks(documents)
+
+    embeddings = get_embeddings()
+
+    return FAISS.from_documents(
+        chunks,
+        embeddings
+    )
+
 
 def update_vector_store(documents):
 

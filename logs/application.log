@@ -370,3 +370,54 @@
 2026-06-28 18:08:07,140 | INFO     | RAGAS completed.
 2026-06-28 18:08:07,141 | INFO     | Generating reports...
 2026-06-28 18:08:07,143 | INFO     | Evaluation completed successfully.
+2026-06-28 19:22:27,504 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 19:22:27,509 | INFO     | No new files found.
+2026-06-28 19:25:46,126 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 19:25:46,131 | INFO     | No new files found.
+2026-06-28 19:29:13,378 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 19:29:41,090 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 19:29:49,229 | INFO     | Question received: what is car?
+2026-06-28 19:30:08,673 | INFO     | Question answered successfully. Retrieved 1 chunks.
+2026-06-28 19:30:09,131 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 19:40:45,499 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 19:40:45,509 | INFO     | No new files found.
+2026-06-28 19:41:11,747 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 19:41:28,649 | INFO     | Question received: What is a car?
+2026-06-28 19:43:01,813 | INFO     | Question received: What are the types of cars?
+2026-06-28 19:43:32,972 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-28 19:44:22,778 | INFO     | Question received: What are the types of cars?
+2026-06-28 19:44:30,291 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-28 19:44:51,418 | INFO     | Question received: What is a car?
+2026-06-28 23:37:14,417 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 23:37:14,421 | INFO     | No new files found.
+2026-06-28 23:37:40,452 | INFO     | Question received: what is playwright?
+2026-06-28 23:38:14,141 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-28 23:38:51,567 | INFO     | Question received: What is a car?
+2026-06-28 23:39:00,008 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 23:39:40,966 | INFO     | Question received: What is a car?
+2026-06-28 23:40:03,175 | INFO     | Question received: What is a car?
+2026-06-28 23:40:15,595 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-28 23:40:47,251 | INFO     | Question received: what is playwright?
+2026-06-28 23:40:50,505 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-28 23:40:57,352 | INFO     | Question received: What is a car?
+2026-06-28 23:41:42,832 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 23:41:42,840 | INFO     | No new files found.
+2026-06-28 23:42:04,222 | INFO     | Question received: what is playwright?
+2026-06-28 23:42:07,629 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-28 23:42:29,022 | INFO     | Question received: What is a car?
+2026-06-28 23:42:36,582 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 23:42:56,374 | INFO     | Question received: What is a car?
+2026-06-28 23:43:31,924 | INFO     | Question received: What is a car?
+2026-06-28 23:43:34,602 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-28 23:49:50,743 | INFO     | Loaded 4 uploaded documents.
+2026-06-28 23:50:57,663 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-28 23:50:57,672 | INFO     | No new files found.
+2026-06-28 23:51:16,570 | INFO     | Loaded 2 uploaded documents.
+2026-06-28 23:52:29,341 | INFO     | Loaded 4 uploaded documents.
+2026-06-29 00:15:29,076 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-29 00:15:29,084 | INFO     | No new files found.
+2026-06-29 00:16:03,315 | INFO     | Loaded 2 uploaded documents.
+2026-06-29 00:17:03,829 | INFO     | Question received: What are the types of cars?
+2026-06-29 00:17:44,625 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-29 00:18:21,313 | INFO     | Question received: What is a car?
+2026-06-29 00:18:24,519 | INFO     | Question answered successfully. Retrieved 2 chunks.
