@@ -421,3 +421,16 @@
 2026-06-29 00:17:44,625 | INFO     | Question answered successfully. Retrieved 3 chunks.
 2026-06-29 00:18:21,313 | INFO     | Question received: What is a car?
 2026-06-29 00:18:24,519 | INFO     | Question answered successfully. Retrieved 2 chunks.
+2026-06-29 00:26:19,527 | INFO     | Loaded 14 documents from 'documents'.
+2026-06-29 00:26:19,530 | INFO     | No new files found.
+2026-06-29 00:26:27,963 | INFO     | System initialized.
+2026-06-29 00:26:34,867 | INFO     | User asked: what is python?
+2026-06-29 00:26:34,867 | INFO     | Evaluation started.
+2026-06-29 00:26:34,867 | INFO     | Question received: what is python?
+2026-06-29 00:27:02,192 | INFO     | Question answered successfully. Retrieved 3 chunks.
+2026-06-29 00:27:02,198 | INFO     | Running DeepEval...
+2026-06-29 00:29:02,757 | INFO     | DeepEval completed.
+2026-06-29 00:29:02,758 | INFO     | Running RAGAS...
+2026-06-29 00:31:00,066 | INFO     | RAGAS completed.
+2026-06-29 00:31:00,068 | INFO     | Generating reports...
+2026-06-29 00:31:00,075 | INFO     | Evaluation completed successfully.
