@@ -155,8 +155,6 @@ with st.sidebar:
         "Use uploaded documents",
         value=False
     )
-
-    runtime_vector_store = None
         
     uploaded_names = tuple(
         file.name
@@ -187,11 +185,16 @@ with st.sidebar:
                 
                 st.session_state.loaded_count = loaded_count
                 st.session_state.failed_files = failed_files
+                
+                if uploaded_documents:
 
-                st.session_state.runtime_vector_store = create_temp_vector_store(
-                    uploaded_documents
-                )
-            
+                    st.session_state.runtime_vector_store = create_temp_vector_store(
+                        uploaded_documents
+                    )
+
+                else:
+
+                    st.session_state.runtime_vector_store = None            
 
             st.session_state.uploaded_names = uploaded_names
         
