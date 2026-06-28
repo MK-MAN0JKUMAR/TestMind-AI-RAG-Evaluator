@@ -11,9 +11,9 @@ from langchain_core.output_parsers import (
 
 from src.llm import get_llm
 from src.latency import Timer
+from src.retrievers import RetrieverFactory
 
-
-SIMILARITY_THRESHOLD = 1.2
+SIMILARITY_THRESHOLD = 1.5
 
 
 def ask_question(
@@ -27,12 +27,13 @@ def ask_question(
     retrieval_timer = Timer()
     retrieval_timer.start()
 
-    retrieved_docs = (
+    retriever = RetrieverFactory.get_retriever(
         vector_store
-        .similarity_search_with_score(
-            question,
-            k=3
-        )
+    )
+
+    retrieved_docs = retriever.retrieve(
+        question=question,
+        k=3
     )
 
     retrieval_latency = retrieval_timer.stop()
@@ -58,7 +59,7 @@ def ask_question(
     retrieved_results = []
 
     for doc, score in retrieved_docs:
-
+        
         if score > SIMILARITY_THRESHOLD:
             continue
 
@@ -71,6 +72,31 @@ def ask_question(
 
         chunk_id = doc.metadata.get(
             "chunk_id",
+            "Unknown"
+        )
+        
+        file_name = doc.metadata.get(
+            "file_name",
+            source
+        )
+
+        file_type = doc.metadata.get(
+            "file_type",
+            "Unknown"
+        )
+
+        page = doc.metadata.get(
+            "page",
+            "Unknown"
+        )
+
+        chunk_index = doc.metadata.get(
+            "chunk_index",
+            "Unknown"
+        )
+
+        total_chunks = doc.metadata.get(
+            "total_chunks",
             "Unknown"
         )
 
@@ -87,11 +113,16 @@ Chunk ID: {chunk_id}
         sources.add(
             source
         )
-
+        
         retrieved_results.append(
             {
                 "source": source,
+                "file_name": file_name,
+                "file_type": file_type,
+                "page": page,
                 "chunk_id": chunk_id,
+                "chunk_index": chunk_index,
+                "total_chunks": total_chunks,
                 "score": round(
                     float(score),
                     4
@@ -119,28 +150,29 @@ Chunk ID: {chunk_id}
     )
 
     template = """
-You are a helpful assistant.
+    You are an AI assistant for Retrieval-Augmented Generation (RAG).
 
-Answer ONLY from the supplied context.
+    Use ONLY the information provided in the Context.
 
-Rules:
+    Instructions:
 
-1. Do not use outside knowledge.
-2. If the answer is unavailable, reply exactly:
+    - Read the entire context carefully before answering.
+    - If the answer is explicitly or implicitly present in the context, answer it in your own words.
+    - Do NOT say "I do not have enough information" if the context contains the answer.
+    - Do NOT use outside knowledge.
+    - If the answer truly does not exist in the context, reply exactly:
 
-I do not have enough information.
+    I do not have enough information.
 
-3. Be concise and factual.
+    Context:
+    {context}
 
-Context:
-{context}
+    Question:
+    {question}
 
-Question:
-{question}
-
-Answer:
-"""
-
+    Answer:
+    """
+    
     prompt = ChatPromptTemplate.from_template(
         template
     )

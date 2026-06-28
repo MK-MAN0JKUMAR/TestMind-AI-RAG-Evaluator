@@ -1,14 +1,10 @@
-import json
-import subprocess
 import sys
+import json
 
 from src.vector_store import update_vector_store
 from src.document_loader import load_documents
-from src.rag_pipeline import ask_question
-from src.report_generator import generate_html_report
-from src.csv_exporter import export_to_csv
 from src.logger import logger
-
+from src.evaluator import evaluate_question
 
 # ---------------------------------
 # Load vector store once
@@ -24,177 +20,6 @@ vector_store = update_vector_store(
 
 logger.info("System initialized.")
 print("\nSystem Ready.")
-
-
-from src.evaluator import (
-    evaluate_question
-)
-
-# ---------------------------------
-# Evaluate one question
-# ---------------------------------
-
-def old_evaluate_question(question: str):
-
-    # RAG
-    result = ask_question(
-        question,
-        vector_store
-    )
-
-    input_data = {
-
-        "question": result["question"],
-
-        "answer": result["answer"],
-
-        "contexts": result["contexts"]
-
-    }
-
-    # Shared input
-    with open(
-            "results/input.json",
-            "w",
-            encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            input_data,
-            f,
-            indent=4
-        )
-
-    # DeepEval
-    subprocess.run(
-
-        [
-
-            r"evaluation\deepeval\.deepeval-venv\Scripts\python.exe",
-
-            r"evaluation\deepeval\evaluate.py",
-
-            r"results\input.json"
-
-        ],
-
-        check=True
-
-    )
-
-    # RAGAS
-    subprocess.run(
-
-        [
-
-            r"evaluation\ragas\.rag-venv\Scripts\python.exe",
-
-            r"evaluation\ragas\evaluate.py",
-
-            r"results\input.json"
-
-        ],
-
-        check=True
-
-    )
-
-    # Load results
-    with open(
-            "results/deepeval_result.json",
-            encoding="utf-8"
-    ) as f:
-
-        deepeval_result = json.load(
-            f
-        )
-
-    with open(
-            "results/ragas_result.json",
-            encoding="utf-8"
-    ) as f:
-
-        ragas_result = json.load(
-            f
-        )
-
-    merged_result = {
-
-        "question": result["question"],
-
-        "answer": result["answer"],
-
-        "sources": result["sources"],
-
-        "retrieved_docs": result["retrieved_docs"],
-
-        "deepeval": deepeval_result,
-
-        "ragas": ragas_result
-
-    }
-
-    with open(
-            "results/merged_result.json",
-            "w",
-            encoding="utf-8"
-    ) as f:
-
-        json.dump(
-            merged_result,
-            f,
-            indent=4
-        )
-
-    generate_html_report(
-        merged_result
-    )
-
-    export_to_csv(
-        merged_result
-    )
-
-    # Console output
-
-    print("\nQuestion:\n")
-    print(
-        merged_result["question"]
-    )
-
-    print("\nAnswer:\n")
-    print(
-        merged_result["answer"]
-    )
-
-    print("\nSources:\n")
-
-    for source in merged_result["sources"]:
-
-        print(
-            source
-        )
-
-    print("\nDeepEval Results:\n")
-
-    print(
-        json.dumps(
-            merged_result["deepeval"],
-            indent=4
-        )
-    )
-
-    print("\nRAGAS Results:\n")
-
-    print(
-        json.dumps(
-            merged_result["ragas"],
-            indent=4
-        )
-    )
-
-    print("\nHTML report generated.")
-    print("CSV updated.")
-
 
 # ---------------------------------
 # Batch mode
@@ -264,13 +89,26 @@ else:
             merged_result["answer"]
         )
 
-        print("\nSources:\n")
+        print("\nSources:")
 
-        for source in merged_result["sources"]:
+        # for source in merged_result["sources"]:
+
+        #     print(
+        #         source
+        #     )
+            
+        for doc in merged_result["retrieved_docs"]:
 
             print(
-                source
-            )
+                f"""
+        File         : {doc['file_name']}
+        Type         : {doc['file_type']}
+        Page         : {doc['page']}
+        Chunk        : {doc['chunk_index']}/{doc['total_chunks']}
+        Chunk ID     : {doc['chunk_id']}
+        Similarity   : {doc['score']}
+        """
+            )    
 
         print("\nDeepEval Results:\n")
 
