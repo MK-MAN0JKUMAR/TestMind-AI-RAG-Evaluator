@@ -11,6 +11,10 @@ from langchain_community.chat_models import ChatOllama
 from ragas.llms import LangchainLLMWrapper
 
 
+# --------------------
+# Native Ollama Model
+# --------------------
+
 llm = ChatOllama(
     model="llama3.1:8b"
 )
@@ -59,7 +63,7 @@ try:
         metrics=[
             faithfulness
         ],
-        llm=ragas_llm
+        llm=ragas_llm,
     )
 
     scores = result.to_pandas().iloc[0].to_dict()

@@ -7,6 +7,7 @@ from src.document_loader import load_documents
 from src.rag_pipeline import ask_question
 from src.report_generator import generate_html_report
 from src.csv_exporter import export_to_csv
+from src.logger import logger
 
 
 # ---------------------------------
@@ -21,6 +22,7 @@ vector_store = update_vector_store(
     documents
 )
 
+logger.info("System initialized.")
 print("\nSystem Ready.")
 
 
@@ -235,8 +237,12 @@ else:
         question = input(
             "\nAsk a question (exit to quit): "
         )
+        
+        logger.info(f"User asked: {question}")
 
         if question.lower() == "exit":
+            
+            logger.info("Application closed by user.")
 
             break
 
@@ -258,13 +264,26 @@ else:
             merged_result["answer"]
         )
 
-        print("\nSources:\n")
+        print("\nSources:")
 
-        for source in merged_result["sources"]:
+        # for source in merged_result["sources"]:
+
+        #     print(
+        #         source
+        #     )
+            
+        for doc in merged_result["retrieved_docs"]:
 
             print(
-                source
-            )
+                f"""
+        File         : {doc['file_name']}
+        Type         : {doc['file_type']}
+        Page         : {doc['page']}
+        Chunk        : {doc['chunk_index']}/{doc['total_chunks']}
+        Chunk ID     : {doc['chunk_id']}
+        Similarity   : {doc['score']}
+        """
+            )    
 
         print("\nDeepEval Results:\n")
 
@@ -284,6 +303,19 @@ else:
             )
         )
 
+        print("\nLatency Metrics")
+        print("--------------------------")
+        print(f"Model            : {merged_result['model']}")
+        print(f"Retrieved Chunks : {len(merged_result['retrieved_docs'])}")
+        print(f"Retrieval        : {merged_result['latency']['retrieval']} sec ({merged_result['latency']['retrieval'] * 1000:.0f} ms)")
+        print(f"LLM              : {merged_result['latency']['llm']} sec ({merged_result['latency']['llm'] * 1000:.0f} ms)")
+        print(f"DeepEval         : {merged_result['latency']['deepeval']} sec")
+        print(f"RAGAS            : {merged_result['latency']['ragas']} sec")
+        print(f"Report           : {merged_result['latency']['report']} sec")
+        print(f"Total            : {merged_result['latency']['total']} sec")
+
         print("\nHTML report generated.")
 
         print("CSV updated.")
+        
+        

@@ -364,56 +364,56 @@ if st.session_state.chat_history:
                     )
                 )       
                         
-        with tab4:
+            with tab4:
 
-            st.subheader(
-                "Reports"
-            )
+                st.subheader(
+                    "Reports"
+                )
 
-            try:
+                try:
 
-                with open(
-                        "reports/report.html",
-                        "rb"
-                ) as f:
+                    with open(
+                            "reports/report.html",
+                            "rb"
+                    ) as f:
 
-                    st.download_button(
-                        "Download HTML Report",
-                        f,
-                        file_name="report.html"
-                    )
+                        st.download_button(
+                            "Download HTML Report",
+                            f,
+                            file_name="report.html"
+                        )
 
-            except:
-                pass
+                except:
+                    pass
 
-            try:
+                try:
 
-                with open(
-                        "reports/results.csv",
-                        "rb"
-                ) as f:
+                    with open(
+                            "reports/results.csv",
+                            "rb"
+                    ) as f:
 
-                    st.download_button(
-                        "Download CSV Report",
-                        f,
-                        file_name="results.csv"
-                    )
+                        st.download_button(
+                            "Download CSV Report",
+                            f,
+                            file_name="results.csv"
+                        )
 
-            except:
-                pass
+                except:
+                    pass
 
-            try:
+                try:
 
-                with open(
-                        "results/merged_result.json",
-                        "rb"
-                ) as f:
+                    with open(
+                            "results/merged_result.json",
+                            "rb"
+                    ) as f:
 
-                    st.download_button(
-                        "Download JSON Result",
-                        f,
-                        file_name="merged_result.json"
-                    )
+                        st.download_button(
+                            "Download JSON Result",
+                            f,
+                            file_name="merged_result.json"
+                        )
 
-            except:
-                pass
+                except:
+                    pass

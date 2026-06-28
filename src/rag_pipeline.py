@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.logger import logger
 
 from langchain_core.prompts import (
     ChatPromptTemplate
@@ -9,7 +10,8 @@ from langchain_core.output_parsers import (
 )
 
 from src.llm import get_llm
-
+from src.latency import Timer
+from src.retrievers import RetrieverFactory
 
 SIMILARITY_THRESHOLD = 1.2
 
@@ -18,14 +20,23 @@ def ask_question(
         question: str,
         vector_store
 ):
-
-    retrieved_docs = (
-        vector_store
-        .similarity_search_with_score(
-            question,
-            k=3
-        )
+    logger.info(
+        f"Question received: {question}"
     )
+
+    retrieval_timer = Timer()
+    retrieval_timer.start()
+
+    retriever = RetrieverFactory.get_retriever(
+        vector_store
+    )
+
+    retrieved_docs = retriever.retrieve(
+        question=question,
+        k=3
+    )
+
+    retrieval_latency = retrieval_timer.stop()
 
     if not retrieved_docs:
 
@@ -34,7 +45,11 @@ def ask_question(
             "answer": "No relevant information found.",
             "contexts": [],
             "sources": [],
-            "retrieved_docs": []
+            "retrieved_docs": [],
+            "latency": {
+                "retrieval": retrieval_latency,
+                "llm": 0.0
+            }
         }
 
     contexts = []
@@ -59,6 +74,31 @@ def ask_question(
             "chunk_id",
             "Unknown"
         )
+        
+        file_name = doc.metadata.get(
+            "file_name",
+            source
+        )
+
+        file_type = doc.metadata.get(
+            "file_type",
+            "Unknown"
+        )
+
+        page = doc.metadata.get(
+            "page",
+            "Unknown"
+        )
+
+        chunk_index = doc.metadata.get(
+            "chunk_index",
+            "Unknown"
+        )
+
+        total_chunks = doc.metadata.get(
+            "total_chunks",
+            "Unknown"
+        )
 
         contexts.append(
 
@@ -73,11 +113,16 @@ Chunk ID: {chunk_id}
         sources.add(
             source
         )
-
+        
         retrieved_results.append(
             {
                 "source": source,
+                "file_name": file_name,
+                "file_type": file_type,
+                "page": page,
                 "chunk_id": chunk_id,
+                "chunk_index": chunk_index,
+                "total_chunks": total_chunks,
                 "score": round(
                     float(score),
                     4
@@ -93,7 +138,11 @@ Chunk ID: {chunk_id}
             "answer": "No relevant information found in the supplied documents.",
             "contexts": [],
             "sources": [],
-            "retrieved_docs": []
+            "retrieved_docs": [],
+            "latency": {
+                "retrieval": retrieval_latency,
+                "llm": 0.0
+            }
         }
 
     context = "\n\n".join(
@@ -130,16 +179,25 @@ Answer:
     llm = get_llm()
 
     chain = (
-            prompt
-            | llm
-            | StrOutputParser()
+        prompt
+        | llm
+        | StrOutputParser()
     )
+
+    llm_timer = Timer()
+    llm_timer.start()
 
     answer = chain.invoke(
         {
             "context": context,
             "question": question
         }
+    )
+    
+    llm_latency = llm_timer.stop()
+
+    logger.info(
+    f"Question answered successfully. Retrieved {len(retrieved_results)} chunks."
     )
 
     return {
@@ -149,5 +207,9 @@ Answer:
         "sources": list(
             sources
         ),
-        "retrieved_docs": retrieved_results
+        "retrieved_docs": retrieved_results,
+        "latency": {
+            "retrieval": retrieval_latency,
+            "llm": llm_latency
+        }
     }
