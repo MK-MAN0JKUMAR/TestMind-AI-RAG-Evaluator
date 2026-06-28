@@ -26,8 +26,8 @@ def get_embeddings():
 def create_chunks(documents):
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,
-        chunk_overlap=50,
+        chunk_size=500,
+        chunk_overlap=100,
         separators=[
             "\n\n",
             "\n",
@@ -40,13 +40,42 @@ def create_chunks(documents):
     chunks = splitter.split_documents(
         documents
     )
+    
+    total_chunks = len(chunks)
 
     for index, chunk in enumerate(chunks):
+
+        source_path = Path(
+            chunk.metadata["source"]
+        )
+
+        file_name = source_path.name
+
+        file_type = source_path.suffix.replace(
+            ".",
+            ""
+        ).lower()
         
-        source_file = Path(chunk.metadata["source"]).name
+        page_index = chunk.metadata.get(
+            "page",
+            0
+        )
 
-        chunk.metadata["chunk_id"] = (f"{source_file}_{index}")
+        page = page_index + 1
 
+        chunk.metadata.update(
+            {
+                "source": str(source_path),
+                "file_name": file_name,
+                "file_type": file_type,
+                "page_index": page_index,
+                "page": page,
+                "chunk_id": f"{file_name}_{index}",
+                "chunk_index": index + 1,
+                "total_chunks": total_chunks
+            }
+        )
+        
     return chunks
 
 
@@ -113,18 +142,16 @@ def update_vector_store(documents):
             )
 
     new_chunks = []
-
+            
     for chunk in chunks:
 
-        source = Path(
-            chunk.metadata["source"]
-        ).name
+        file_name = chunk.metadata["file_name"]
 
-        if source not in indexed_files:
+        if file_name not in indexed_files:
 
             new_chunks.append(
                 chunk
-            )
+            )        
             
     if not new_chunks:
         
@@ -160,9 +187,7 @@ def update_vector_store(documents):
 
     indexed_files.update(
 
-        Path(
-            chunk.metadata["source"]
-        ).name
+        chunk.metadata["file_name"]
 
         for chunk in new_chunks
     )

@@ -264,13 +264,26 @@ else:
             merged_result["answer"]
         )
 
-        print("\nSources:\n")
+        print("\nSources:")
 
-        for source in merged_result["sources"]:
+        # for source in merged_result["sources"]:
+
+        #     print(
+        #         source
+        #     )
+            
+        for doc in merged_result["retrieved_docs"]:
 
             print(
-                source
-            )
+                f"""
+        File         : {doc['file_name']}
+        Type         : {doc['file_type']}
+        Page         : {doc['page']}
+        Chunk        : {doc['chunk_index']}/{doc['total_chunks']}
+        Chunk ID     : {doc['chunk_id']}
+        Similarity   : {doc['score']}
+        """
+            )    
 
         print("\nDeepEval Results:\n")
 
