@@ -1,4 +1,5 @@
 import sys
+import streamlit as st
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -6,8 +7,6 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(
     str(ROOT_DIR)
 )
-
-import streamlit as st
 
 from src.document_loader import (
     load_documents,
@@ -32,46 +31,126 @@ from src.rag_pipeline import (
 st.set_page_config(
     page_title="TestMind Chat",
     page_icon="🤖",
-    layout="wide"
+    layout="centered"
 )
 
 
 
 # ---------------------------------------------------
-# CSS
+# Custom CSS
 # ---------------------------------------------------
 
 st.markdown(
     """
 <style>
 
-.block-container {
-    padding-top: 1rem;
+.block-container{
+    padding-top:0.5rem;
+    padding-bottom:1rem;
 }
 
-h1{
+[data-testid="stSidebar"]{
+    border-right:1px solid #2d2d2d;
+}
+
+[data-testid="stMetric"]{
+    background:#1f2937;
+    border:1px solid #374151;
+    border-radius:12px;
+    padding:12px;
+}
+
+[data-testid="stExpander"]{
+    border-radius:10px;
+    border:1px solid #30363d;
+}
+
+.hero{
+    padding:20px;
+    border-radius:14px;
+    background:#111827;
+    border:1px solid #374151;
+    margin-bottom:10px;
+}
+
+.tech-stack{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+    margin-top:18px;
+}
+
+.tech-card{
+    background:#1f2937;
+    border:1px solid #374151;
+    border-radius:12px;
+    padding:12px;
+}
+
+.tech-title{
+    color:#9ca3af;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.tech-value{
+    color:white;
+    font-weight:600;
+    font-size:16px;
+}
+
+.hero h1{
     color:#4CAF50;
+    font-size:clamp(32px,5vw,52px);
+
 }
 
-div[data-testid="stMetric"]{
-    background-color:#1e1e1e;
-    border-radius:10px;
-    padding:10px;
+.hero p{
+    color:#d1d5db;
+    font-size:clamp(14px,2vw,18px);
+
 }
 
-div[data-testid="stExpander"]{
-    border-radius:10px;
-    border:1px solid #333;
+.section-title{
+    color:#60a5fa;
+    font-weight:600;
+    margin-top:12px;
+    margin-bottom:8px;
 }
 
-[data-testid="stSidebarUserContent"] {
-    margin-top: -5rem;
+[data-testid="stSidebarUserContent"]{
+    margin-top:-2rem;
+}
+
+@media (max-width: 768px){
+
+    .hero{
+        padding:16px;
+    }
+
+    .tech-stack{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .tech-card{
+        padding:14px;
+    }
+
+    .tech-value{
+        font-size:20px;
+    }
+
 }
 
 </style>
+
 """,
     unsafe_allow_html=True
 )
+
+
+
 
 # ---------------------------------------------------
 # Session State
@@ -91,8 +170,10 @@ if "question_input" not in st.session_state:
  
 if "runtime_vector_store" not in st.session_state:
 
-    st.session_state.runtime_vector_store = None
- 
+    st.session_state.runtime_vector_store = None  
+    
+     
+    
     
 # ---------------------------------------------------
 # Load RAG
@@ -122,26 +203,17 @@ documents, vector_store = initialize_rag()
 with st.sidebar:
 
     st.title("⚙️ TestMind")
-
-    st.write("### Configuration")
-
-    st.success(
-        "LLM : llama3.1:8b"
-    )
-
-    st.success(
-        "Embeddings : all-MiniLM-L6-v2"
-    )
-
-    st.info(
-        "Vector DB : FAISS"
-    )
-
-    st.info(
-        "Documents : TXT + PDF"
-    )
     
-    st.divider()
+    st.markdown(
+        """
+        <hr style="
+            margin:0px 0;
+            border:0;
+            border-top:3px solid #3b3b3b;
+        ">
+        """,
+        unsafe_allow_html=True
+    )
 
     st.write("### Runtime Upload")
 
@@ -153,7 +225,7 @@ with st.sidebar:
 
     use_uploaded_documents = st.toggle(
         "Use uploaded documents",
-        value=False
+        key="use_uploaded_documents"
     )
         
     uploaded_names = tuple(
@@ -171,7 +243,11 @@ with st.sidebar:
 
     if "failed_files" not in st.session_state:
 
-        st.session_state.failed_files = []    
+        st.session_state.failed_files = []   
+        
+    if "use_uploaded_documents" not in st.session_state:
+
+        st.session_state.use_uploaded_documents = False 
 
     if uploaded_files:
 
@@ -214,88 +290,155 @@ with st.sidebar:
                 f"Loaded {st.session_state.loaded_count} uploaded file(s)"
             ) 
 
-    st.divider()
-
-    st.write("### Statistics")
-    
-    uploaded_count = len(uploaded_files) if uploaded_files else 0
-
-    st.write(
-        f"Base Documents : {len(documents)}"
+    st.markdown(
+        """
+        <hr style="
+            margin:0px 0;
+            border:0;
+            border-top:2px solid #3b3b3b;
+        ">
+        """,
+        unsafe_allow_html=True
     )
 
-    st.write(
-        f"Uploaded Files : {uploaded_count}"
-    )
+    st.markdown("#### 📊 Statistics")
 
-    st.write(
-        "Active Source : Runtime Upload"
-        if use_uploaded_documents and st.session_state.runtime_vector_store
-        else "Active Source : Documents Folder"
-    )
+    uploaded_count = st.session_state.loaded_count
 
-    st.write(
-        f"Questions Asked : {len(st.session_state.chat_history)}"
-    )
-    
-    
+    col1, col2 = st.columns(2)
 
-    if st.button(
-        "🗑 Clear Chat History"
-    ):
+    with col1:
 
-        st.session_state.chat_history = []
+        st.metric(
+            "Documents",
+            len(documents)
+        )
 
-        st.rerun()
+        st.metric(
+            "Questions",
+            len(st.session_state.chat_history)
+        )
+
+    with col2:
+
+        st.metric(
+            "Uploads",
+            uploaded_count
+        )
+        
+        st.metric(
+            "Mode",
+            "Runtime"
+            if st.session_state.use_uploaded_documents
+            and st.session_state.runtime_vector_store
+            else "Local"
+        )
+
 
 
 
 # ---------------------------------------------------
-# Header
+# Title
 # ---------------------------------------------------
 
-st.title(
-    "🤖 TestMind Chat"
+st.markdown(
+    """
+<div class="hero">
+
+<h1>🤖 TestMind Chat</h1>
+
+<p>Enterprise AI-Augmented RAG Chat</p>
+
+<div class="tech-stack">
+
+<div class="tech-card">
+<div class="tech-title">🟢 LLM</div>
+<div class="tech-value">llama3.1:8b</div>
+</div>
+
+<div class="tech-card">
+<div class="tech-title">🔵 Embedding</div>
+<div class="tech-value">all-MiniLM-L6-v2</div>
+</div>
+
+<div class="tech-card">
+<div class="tech-title">🟣 Vector DB</div>
+<div class="tech-value">FAISS</div>
+</div>
+
+<div class="tech-card">
+<div class="tech-title">🟠 Retriever</div>
+<div class="tech-value">Similarity Search</div>
+</div>
+
+</div>
+
+</div>
+""",
+unsafe_allow_html=True
 )
 
-st.caption(
-    "Fast RAG Chat"
-)
+def run_example_question(question: str):
+
+    active_vector_store = (
+        st.session_state.runtime_vector_store
+        if (
+            st.session_state.use_uploaded_documents
+            and st.session_state.runtime_vector_store
+        )
+        else vector_store
+    )
+
+    with st.spinner(f"🔎 Searching: {question}"):
+
+        result = ask_question(
+            question,
+            active_vector_store
+        )
+
+        st.session_state.chat_history.insert(
+            0,
+            result
+        )
+
+    st.rerun()
+ 
 
 if st.session_state.clear_input:
 
     st.session_state.question_input = ""
-
-    st.session_state.clear_input = False
-
-
-
+    st.session_state.clear_input = False    
+   
+    
+    
+    
 # ---------------------------------------------------
 # Search Area
 # ---------------------------------------------------
 
-with st.form(
-        "search_form",
-):
+with st.form("search_form"):
     
     question = st.text_input(
-        "Ask a question",
-        key="question_input"
+        "Question",
+        key="question_input",
+        placeholder="Ask a question...",
+        label_visibility="collapsed"
     )
 
     submitted = st.form_submit_button(
-        "Search"
+        "🔍 Search",
+        use_container_width=True
     )
 
 if submitted and question.strip():
-
+      
     with st.spinner(
-            "Thinking..."
-    ):
+        "🔎 Searching documents and generating answer..."
+    ):    
 
         active_vector_store = (
             st.session_state.runtime_vector_store
-            if use_uploaded_documents and st.session_state.runtime_vector_store
+            if st.session_state.use_uploaded_documents and st.session_state.runtime_vector_store
             else vector_store
         )
 
@@ -312,29 +455,211 @@ if submitted and question.strip():
         st.session_state.clear_input = True
         
         st.rerun()
+        
+if st.session_state.clear_input:
+
+    st.session_state.question_input = ""
+    st.session_state.clear_input = False    
+
+
+
 
 # ---------------------------------------------------
-# Results
+# Quick Actions
+# ---------------------------------------------------
+
+show_runtime = (
+    st.session_state.runtime_vector_store is not None
+)
+
+show_chat = (
+    len(st.session_state.chat_history) > 0
+)
+
+if show_runtime or show_chat:
+
+    if show_runtime and show_chat:
+
+        col1, col2, col3 = st.columns([1, 1, 3])
+
+        with col1:
+
+            if st.button(
+                "🗑 Clear Runtime",
+                use_container_width=True
+            ):
+
+                st.session_state.runtime_vector_store = None
+                st.session_state.uploaded_names = ()
+                st.session_state.loaded_count = 0
+                st.session_state.failed_files = []
+
+                st.rerun()
+
+        with col2:
+
+            if st.button(
+                "🗑 Clear Chat",
+                use_container_width=True
+            ):
+
+                st.session_state.chat_history = []
+
+                st.rerun()
+
+    elif show_runtime:
+
+        col1, col2, col3 = st.columns([1, 2, 1])
+
+        with col2:
+
+            if st.button(
+                "🗑 Clear Runtime",
+                use_container_width=True
+            ):
+
+                st.session_state.runtime_vector_store = None
+                st.session_state.uploaded_names = ()
+                st.session_state.loaded_count = 0
+                st.session_state.failed_files = []
+
+                st.rerun()
+
+    else:
+
+        col1, col2, col3 = st.columns([1, 2, 1])
+
+        with col2:
+
+            if st.button(
+                "🗑 Clear Chat",
+                use_container_width=True
+            ):
+
+                st.session_state.chat_history = []
+
+                st.rerun()
+
+
+
+
+# ---------------------------------------------------
+# No Conversation Yet & Example Questions
+# ---------------------------------------------------
+
+if not st.session_state.chat_history:
+
+    st.info(
+        "💬 No conversation yet. Upload documents or ask your first question."
+    )
+
+    st.markdown("### 💡 Example Questions")
+
+    examples = [
+        ("What is Playwright?", "example_playwright"),
+        ("What is Python?", "example_python"),
+        ("Tell me about health insurance?", "example_health"),
+        ("Compare Selenium and Playwright", "example_selenium_playwright"),
+    ]
+
+    col1, col2 = st.columns(2)
+
+    for index, (question, key) in enumerate(examples):
+
+        column = col1 if index % 2 == 0 else col2
+
+        with column:
+
+            if st.button(
+                question,
+                key=key,
+                use_container_width=True,
+            ):
+                run_example_question(question)
+                
+                
+                
+# ---------------------------------------------------
+# Result & Chat History
 # ---------------------------------------------------
 
 if st.session_state.chat_history:
 
     for result in st.session_state.chat_history:
-
-        st.divider()
         
         st.markdown(
-            f"### Q. {result['question']}"
+            """
+        <hr style="
+        margin-top:0px;
+        margin-bottom:0px;
+        border:0;
+        border-top:1px solid #30363d;
+        ">
+        """,
+            unsafe_allow_html=True
         )
-
 
         # ---------------------------------------
         # Answer
         # ---------------------------------------
 
-        st.success(
-            result["answer"]
+        st.markdown(
+            f"""
+        <div style="
+        background:#1f2937;
+        padding:14px 18px;
+        border-radius:12px;
+        margin-top:8px;
+        margin-bottom:10px;
+        border:1px solid #374151;
+        ">
+
+        <div style="font-size:14px;color:#9ca3af;">
+        👤 You
+        </div>
+
+        <div style="margin-top:4px;margin-left:24px; font-size:17px;">
+        {result["question"]}
+        </div>
+
+        </div>
+        """,
+            unsafe_allow_html=True
         )
+        
+        st.markdown(
+            f"""
+<div style="
+background:#113322;
+padding:16px 18px;
+border-radius:12px;
+border:1px solid #2f855a;
+margin-bottom:8px;
+">
+
+<div style="
+font-size:14px;
+font-weight:600;
+color:#9fe8b3;
+margin-bottom:6px;
+margin-left:8px;
+">
+🤖 TestMind
+</div>
+
+<div style="
+font-size:16px;
+line-height:1.7;
+color:white;
+margin-left:22px;
+">
+{result["answer"]}
+</div>
+
+</div>
+""",
+    unsafe_allow_html=True
+)
 
 
         # ---------------------
@@ -356,11 +681,22 @@ if st.session_state.chat_history:
         with tab1:
 
             for source in result["sources"]:
+                
+                st.markdown(
+                    f"""
+                <div style="
+                background:#1f2937;
+                padding:10px;
+                border-radius:8px;
+                margin-bottom:8px;
+                ">
 
-                st.write(
-                   f"📄 {source}"
+                📄 {source}
+
+                </div>
+                """,
+                    unsafe_allow_html=True
                 )
-
 
         # ---------------------
         # Retrieved Chunks
@@ -391,7 +727,7 @@ if st.session_state.chat_history:
                         f"Rank #{index}"
                 ):
                                 
-                    col1, col2 = st.columns(2)
+                    col1, col2, col3 = st.columns(3)
 
                     with col1:
 
@@ -407,32 +743,87 @@ if st.session_state.chat_history:
                             doc["chunk_id"]
                         )
 
-                    st.write(
-                        f"📄 File : {doc['file_name']}"
+                    left, right = st.columns(2)
+
+                    with left:
+
+                        st.caption(
+                            f"📄 File : {doc['file_name']}"
+                        )
+
+                        st.caption(
+                            f"📑 Type : {doc['file_type']}"
+                        )
+
+                    with right:
+
+                        st.caption(
+                            f"📄 Page : {doc['page']}"
+                        )
+
+                        st.caption(
+                            f"🧩 Chunk : {doc['chunk_index']}/{doc['total_chunks']}"
+                        )
+
+                    st.caption(
+                        f"🆔 {doc['chunk_id']}"
                     )
 
-                    st.write(
-                        f"📑 Type : {doc['file_type']}"
+                    st.caption(
+                        f"📂 {doc['source']}"
                     )
 
-                    st.write(
-                        f"📄 Page : {doc['page']}"
+                    st.markdown(
+                        """
+                        <hr style="
+                            margin:0px 0;
+                            border:0;
+                            border-top:1px solid #3b3b3b;
+                        ">
+                        """,
+                        unsafe_allow_html=True
                     )
+                    
 
-                    st.write(
-                        f"🧩 Chunk : {doc['chunk_index']}/{doc['total_chunks']}"
-                    )
-
-                    st.write(
-                        f"📂 Source : {doc['source']}"
-                    )
-
-                    st.divider()
+                    st.markdown("**Retrieved Content**")
 
                     st.code(
-                        doc["content"]
+                        doc["content"],
+                        language="text"
                     )
+                    
+                    with col3:
 
+                        st.metric(
+                            "File",
+                            doc["file_type"].upper()
+                        )
+                        
+st.markdown(
+    """
+<hr style="
+    margin:0px 0;
+    border-top:1px solid #3b3b3b;
+">
+""",
+    unsafe_allow_html=True
+)
+
+
+st.markdown(
+    """
+<div style="
+text-align:center;
+color:#9ca3af;
+padding-bottom:18px;
+">
+
+TestMind AI-RAG Evaluator • Ollama • FAISS • LangChain • Streamlit
+
+</div>
+""",
+    unsafe_allow_html=True
+)
                 
                 
                 
