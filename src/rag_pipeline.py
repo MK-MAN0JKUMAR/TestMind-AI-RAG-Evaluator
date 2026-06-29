@@ -1,5 +1,7 @@
 from pathlib import Path
 from src.logger import logger
+import re
+
 
 from langchain_core.prompts import (
     ChatPromptTemplate
@@ -194,6 +196,8 @@ Chunk ID: {chunk_id}
             "question": question
         }
     )
+    
+    print(answer)
     
     llm_latency = llm_timer.stop()
 

@@ -25,6 +25,79 @@ def evaluate_question(
         question,
         vector_store
     )
+    
+    # ----------------------------
+    # No Relevant Context Found
+    # ----------------------------
+
+    
+    if (
+        not result["retrieved_docs"]
+        or
+        not result["contexts"]
+    ):    
+
+        logger.info(
+            "No relevant documents retrieved. Skipping evaluation."
+        )
+
+        empty_result = {
+
+            "question": result["question"],
+
+            "answer": result["answer"],
+
+            "sources": [],
+
+            "retrieved_docs": [],
+
+            "deepeval": {
+
+                "answer_relevancy": {
+
+                    "score": 0.0,
+
+                    "reason": "No relevant documents retrieved."
+
+                },
+
+                "hallucination": {
+
+                    "score": 0.0,
+
+                    "reason": "No relevant documents retrieved."
+
+                }
+
+            },
+
+            "ragas": {
+
+                "faithfulness": 0.0
+
+            },
+
+            "model": MODEL_NAME,
+
+            "latency": {
+
+                "retrieval": result["latency"]["retrieval"],
+
+                "llm": result["latency"]["llm"],
+
+                "deepeval": 0.0,
+
+                "ragas": 0.0,
+
+                "report": 0.0,
+
+                "total": total_timer.stop()
+
+            }
+
+        }
+
+        return empty_result
 
     input_data = {
 
