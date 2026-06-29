@@ -1,12 +1,70 @@
 import json
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
+
+from src.latency import Timer
 
 from src.rag_pipeline import ask_question
 from src.report_generator import generate_html_report
 from src.csv_exporter import export_to_csv
-from src.latency import Timer
 from src.llm import MODEL_NAME
 from src.logger import logger
+
+def run_deepeval():
+
+    timer = Timer()
+    timer.start()
+
+    logger.info("Running DeepEval...")
+
+    subprocess.run(
+
+        [
+
+            r"evaluation\deepeval\.deepeval-venv\Scripts\python.exe",
+
+            r"evaluation\deepeval\evaluate.py",
+
+            r"results\input.json"
+
+        ],
+
+        check=True
+
+    )
+
+    logger.info("DeepEval completed.")
+
+    return timer.stop()
+
+
+def run_ragas():
+
+    timer = Timer()
+    timer.start()
+
+    logger.info("Running RAGAS...")
+
+    subprocess.run(
+
+        [
+
+            r"evaluation\ragas\.rag-venv\Scripts\python.exe",
+
+            r"evaluation\ragas\evaluate.py",
+
+            r"results\input.json"
+
+        ],
+
+        check=True
+
+    )
+
+    logger.info("RAGAS completed.")
+
+    return timer.stop()
+
 
 
 def evaluate_question(
@@ -25,6 +83,79 @@ def evaluate_question(
         question,
         vector_store
     )
+    
+    # ----------------------------
+    # No Relevant Context Found
+    # ----------------------------
+
+    
+    if (
+        not result["retrieved_docs"]
+        or
+        not result["contexts"]
+    ):    
+
+        logger.info(
+            "No relevant documents retrieved. Skipping evaluation."
+        )
+
+        empty_result = {
+
+            "question": result["question"],
+
+            "answer": result["answer"],
+
+            "sources": [],
+
+            "retrieved_docs": [],
+
+            "deepeval": {
+
+                "answer_relevancy": {
+
+                    "score": 0.0,
+
+                    "reason": "No relevant documents retrieved."
+
+                },
+
+                "hallucination": {
+
+                    "score": 0.0,
+
+                    "reason": "No relevant documents retrieved."
+
+                }
+
+            },
+
+            "ragas": {
+
+                "faithfulness": 0.0
+
+            },
+
+            "model": MODEL_NAME,
+
+            "latency": {
+
+                "retrieval": result["latency"]["retrieval"],
+
+                "llm": result["latency"]["llm"],
+
+                "deepeval": 0.0,
+
+                "ragas": 0.0,
+
+                "report": 0.0,
+
+                "total": total_timer.stop()
+
+            }
+
+        }
+
+        return empty_result
 
     input_data = {
 
@@ -51,62 +182,22 @@ def evaluate_question(
             f,
             indent=4
         )
-            
-    deepeval_timer = Timer()
-    deepeval_timer.start()
+
     
-    # ----------------------------
-    # DeepEval
-    # ----------------------------
-    logger.info("Running DeepEval...")
-    
-    subprocess.run(
+    with ThreadPoolExecutor(max_workers=2) as executor:
 
-        [
+        deepeval_future = executor.submit(
+            run_deepeval
+        )
 
-            r"evaluation\deepeval\.deepeval-venv\Scripts\python.exe",
+        ragas_future = executor.submit(
+            run_ragas
+        )
 
-            r"evaluation\deepeval\evaluate.py",
+        deepeval_latency = deepeval_future.result()
 
-            r"results\input.json"
-
-        ],
-
-        check=True
-
-    )
-    
-    logger.info("DeepEval completed.")
-
-    # ----------------------------
-    # RAGAS
-    # ----------------------------
-
-    deepeval_latency = deepeval_timer.stop()
-    
-    ragas_timer = Timer()
-    ragas_timer.start()
-
-    logger.info("Running RAGAS...")
-    subprocess.run(
-
-        [
-
-            r"evaluation\ragas\.rag-venv\Scripts\python.exe",
-
-            r"evaluation\ragas\evaluate.py",
-
-            r"results\input.json"
-
-        ],
-
-        check=True
-
-    )
-    
-    logger.info("RAGAS completed.")
-    
-    ragas_latency = ragas_timer.stop()
+        ragas_latency = ragas_future.result()
+        
 
     # ----------------------------
     # Load Results

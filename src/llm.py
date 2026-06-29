@@ -1,11 +1,14 @@
 from langchain_ollama import ChatOllama
 
-MODEL_NAME = "llama3.1:8b"
+from src.evaluation_config import ANSWER
+
+
+MODEL_NAME = ANSWER["model"]
+
 
 def get_llm():
-    
-    
+
     return ChatOllama(
-        model=MODEL_NAME,
-        temperature=0.3
+        model=ANSWER["model"],
+        temperature=ANSWER["temperature"]
     )

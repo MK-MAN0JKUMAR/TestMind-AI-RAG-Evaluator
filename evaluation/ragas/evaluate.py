@@ -1,5 +1,9 @@
 import json
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 
 from datasets import Dataset
 
@@ -11,12 +15,15 @@ from langchain_community.chat_models import ChatOllama
 from ragas.llms import LangchainLLMWrapper
 
 
+from src.evaluation_config import EVALUATION
+
 # --------------------
 # Native Ollama Model
 # --------------------
 
 llm = ChatOllama(
-    model="llama3.1:8b"
+    model=EVALUATION["model"],
+    temperature=EVALUATION["temperature"]
 )
 
 ragas_llm = LangchainLLMWrapper(
