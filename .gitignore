@@ -31,6 +31,7 @@ htmlcov/
 # Generated Reports
 reports/*.html
 reports/*.csv
+logs/
 
 # Evaluation Results
 results/*.json
