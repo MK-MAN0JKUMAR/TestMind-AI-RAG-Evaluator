@@ -1,5 +1,9 @@
 import json
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 
 from deepeval.models import OllamaModel
 
@@ -15,13 +19,15 @@ from deepeval.test_case.llm_test_case import (
     LLMTestCase
 )
 
+from src.evaluation_config import EVALUATION
+
 
 # --------------------
 # Native Ollama Model
 # --------------------
 
 model = OllamaModel(
-    model="llama3.1:8b"
+    model=EVALUATION["model"]
 )
 
 
