@@ -15,16 +15,23 @@ from langchain_community.chat_models import ChatOllama
 from ragas.llms import LangchainLLMWrapper
 
 
-from src.evaluation_config import EVALUATION
+from src.evaluation_config import (
+    EVALUATION_PROVIDER,
+    PROVIDERS,
+)
 
 # --------------------
 # Native Ollama Model
 # --------------------
 
+evaluation_config = PROVIDERS[EVALUATION_PROVIDER]["evaluation"]
+
 llm = ChatOllama(
-    model=EVALUATION["model"],
-    temperature=EVALUATION["temperature"]
+    model=evaluation_config["model"],
+    temperature=evaluation_config["temperature"],
 )
+
+
 
 ragas_llm = LangchainLLMWrapper(
     llm

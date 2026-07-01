@@ -1,14 +1,20 @@
-from langchain_ollama import ChatOllama
+from src.evaluation_config import (
+    ANSWER_PROVIDER,
+    PROVIDERS,
+)
 
-from src.evaluation_config import ANSWER
+from src.providers import LLMFactory
 
 
-MODEL_NAME = ANSWER["model"]
+MODEL_NAME = PROVIDERS[ANSWER_PROVIDER]["answer"]["model"]
 
 
 def get_llm():
 
-    return ChatOllama(
-        model=ANSWER["model"],
-        temperature=ANSWER["temperature"]
+    provider_config = PROVIDERS[ANSWER_PROVIDER]
+
+    return LLMFactory.create(
+        provider_name=ANSWER_PROVIDER,
+        config=provider_config,
+        purpose="answer",
     )

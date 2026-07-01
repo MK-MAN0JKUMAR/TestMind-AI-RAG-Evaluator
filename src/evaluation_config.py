@@ -1,28 +1,66 @@
 """
 Centralized AI configuration.
 
-This file is the single source of truth for all AI providers,
-models, temperatures and future AI components.
+This file is the single source of truth for AI providers,
+models, retrieval settings, chunking and future AI components.
 """
 
 # ==========================================================
-# Answer Generation
+# Active Providers
 # ==========================================================
 
-ANSWER = {
-    "provider": "ollama",
-    "model": "llama3.1:8b",
-    "temperature": 0.3,
-}
+ANSWER_PROVIDER = "ollama"
+
+EVALUATION_PROVIDER = "ollama"
+
 
 # ==========================================================
-# Evaluation (Judge LLM)
+# Provider Configurations
 # ==========================================================
 
-EVALUATION = {
-    "provider": "ollama",
-    "model": "qwen2.5:3b",
-    "temperature": 0.0,
+PROVIDERS = {
+
+    # ------------------------------
+    # Ollama
+    # ------------------------------
+    "ollama": {
+
+        "answer": {
+            "model": "llama3.1:8b",
+            "temperature": 0.3,
+        },
+
+        "evaluation": {
+            "model": "qwen2.5:3b",
+            "temperature": 0.0,
+        },
+    },
+
+    # ------------------------------
+    # Groq
+    # ------------------------------
+    "groq": {
+
+        "api_key_env": "GROQ_API_KEY",
+
+        "answer": {
+            "model": "llama-3.3-70b-versatile",
+            "temperature": 0.3,
+        },
+
+        "evaluation": {
+            "model": "llama-3.3-70b-versatile",
+            "temperature": 0.0,
+        },
+    },
+
+    # ------------------------------
+    # Future Providers
+    # ------------------------------
+    # "openai": {},
+    # "gemini": {},
+    # "anthropic": {},
+    # "azure_openai": {},
 }
 
 # ==========================================================
@@ -75,5 +113,3 @@ VISION = {
     "provider": None,
     "model": None,
 }
-
-

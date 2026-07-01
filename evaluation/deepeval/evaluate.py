@@ -19,15 +19,20 @@ from deepeval.test_case.llm_test_case import (
     LLMTestCase
 )
 
-from src.evaluation_config import EVALUATION
+from src.evaluation_config import (
+    EVALUATION_PROVIDER,
+    PROVIDERS,
+)
 
 
 # --------------------
 # Native Ollama Model
 # --------------------
 
+evaluation_config = PROVIDERS[EVALUATION_PROVIDER]["evaluation"]
+
 model = OllamaModel(
-    model=EVALUATION["model"]
+    model=evaluation_config["model"]
 )
 
 
